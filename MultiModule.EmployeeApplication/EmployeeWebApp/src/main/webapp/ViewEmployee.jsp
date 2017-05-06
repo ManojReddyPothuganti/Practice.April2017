@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html >
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Creating Employee</title>
+<title>ViewEmployee</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.9.1/jquery.tablesorter.min.js"></script>
+
 <style>
 
 
@@ -17,8 +22,17 @@
 
 
 h5 {
-    text-align: right;
+    
+    	height:670px;
+    width:332px;
+	position:absolute;
+	left:45%;
+	top:70%;
+	margin:-130px 0 0 -166px;
+	font:20px/22px Arial, Helvetica, Sans-serif;
 }
+
+
 
 
 .box
@@ -48,12 +62,24 @@ h5 {
 	height:670px;
     width:332px;
 	position:absolute;
-	left:40%;
+	left:45%;
 	top:30%;
 	margin:-130px 0 0 -166px;
 	font:14px/22px Arial, Helvetica, Sans-serif;
 }
 
+#myDummyTable{
+	position:absolute;
+	left:20%;
+	top:40%;
+	 border:1px solid black;border-collapse:collapse;padding:2px 10px;
+}
+
+
+
+
+td,th{border:1px solid black;border-collapse:collapse;padding:2px 10px;width:100px;}
+th{cursor:n-resize;background-color:lightgrey;}
 
 .boxBody
 {
@@ -192,62 +218,135 @@ footer#main{
 	width:100%;
 }
 
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
+    content: " \25B4\25BE" 
+}
+
+
+DIV.table 
+{
+    display:table;
+}
+FORM.tr, DIV.tr
+{
+    display:table-row;
+}
+SPAN.td
+{
+    display:table-cell;
+}
+
 
 
 </style>
 
+
+ 
+ 
+ <script>
+ $(function(){
+   $("#myDummyTable").tablesorter({widgets: ['zebra']});
+ });
+ $("#divdeps").dialog({
+	    autoOpen: false,
+	    show: 'slide',
+	    resizable: false,
+	    position: 'center',
+	    stack: true,
+	    height: 'auto',
+	    width: 'auto',
+	    modal: true
+	});
+
+ 
+
+/* $(document).ready(function(){
+ $('#firstName,#lastName,#salary').click(function(){
+	alert("The paragraph was clicked.");
+	    var table = $(this).parents('#myTable').eq(0);
+	    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+	    this.asc = !this.asc;
+	    if (!this.asc){rows = rows.reverse()}
+	    for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+	})});
+	function comparer(index) {
+	    return function(a, b) {
+	        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+	        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+	    }
+	}
+	function getCellValue(row, index){ return $(row).children('td').eq(index).html(); }  */
+</script> 
+
+
+
+
 </head>
 <body>
-
-<h3> Employee details are </h3>
-
-	<form action="" id="create" class="box create" method="post">
+<h4 id="flip"> Please enter employee id to query the employee or just click on view all button  to view all the Employees</h4>
+<form action="/EmployeeWebApp/viewemployee?action=search" id="create" class="box create" method="post">
 		<fieldset class="boxBody">
 		
 			<p>
 				<label>Employee Id</label>
 			</p>
 			<input type="text" name="employeeId" tabindex="1"
-				placeholder="employeeId" value="<%=request.getAttribute("id")%>"pattern="^\d+$" title="Please enter only numbers" required >
-
-		
-			<p>
-				<label>First Name</label>
-			</p>
-			<input type="text" name="firstName" tabindex="2"
-				placeholder="First  name " value="<%=request.getAttribute("firstName")%>" required>
-
-			<p>
-				<label>Last Name</label>
-			</p>
-			<input type="text" name="lastName" tabindex="3"
-				placeholder="lastName "  value="<%=request.getAttribute("lastName")%>" required>
-
-			<p>
-				<label>Salary</label>
-			</p>
-			<input type="text" name="salary" tabindex="4"
-				placeholder="Enter salary here"  value="<%=request.getAttribute("salary")%>" pattern="^\d+$" title="Please enter only numbers" required>
-
-			<p>
-				<label>Address</label>
-			</p>
-			<input type="text" name="address" tabindex="5" id="address" value="<%=request.getAttribute("address")%>" required>
-
-			<p>
-				<select class="select-style gender" name="gender" id="gender"  required>
-					<option value="select" >I am..</option>
-					<option value="m" <%if((request.getAttribute("gender"))=="MALE"){%> selected <%}%>>Male</option>
-					<option value="f" <%if((request.getAttribute("gender"))=="FEMALE"){%> selected <%}%>>Female</option>
-					
-				</select><br>
-			</p>
-			<a href="/EmployeeWebApp/ViewEmployee.html">	<input type="button" class="btnCreate" name="submit" id="submit" tabindex="8"
-				value="View another Employee"></a> 
-				
-
+				placeholder="employeeId"  >
+			<input type="submit" class="btnCreate" name="submit" id="submit" tabindex="2"
+				value="View"> 
+				<input type="submit" class="btnCreate" name="submit" id="reset" tabindex="3" value="View All">
+			<a href="/EmployeeWebApp/home.html"><input type="button" class="btnCreate" value="Home"/></a>
 		</fieldset>
 	</form>
+	
+		<%
+									
+			boolean notFound=false;
+		%>
+		<c:if test="${requestScope.notFound eq true}">
+			<h5> Employee with given Id  not found </h5>
+		</c:if>
+		
+		
+		
 
-</body>
+		<table class="sortable" id="myDummyTable" >
+			
+				<c:if test="${requestScope.employees ne null}">
+				<h4>Click on headers to sort the data after the table generation</h4>	
+				<thead>
+				<tr><th id="firstName">First Name</th><th id="lastName">Last Name</th><th id="salary">Salary</th><th id="address">Address</th><th>Gender</th><th>Employee Id</th></tr>
+				</thead>
+				</c:if>
+			
+			
+			<tbody>
+			<c:forEach items="${requestScope.employees}" var="employee">
+			
+			
+			<tr >
+			  	
+				<td>${employee.firstName} </td>
+				<td>${employee.lastName}</td>
+				<td>${employee.salary}</td>
+				<td>${employee.address}</td>
+				<td>${employee.gender}</td>
+				<td>'${employee.id}' </td>
+				
+				
+			</tr>
+			
+			
+			
+			</c:forEach>
+			</tbody> 
+		</table>
+		
+		
+
+		
+	</body>
 </html>
+	
+	
+	

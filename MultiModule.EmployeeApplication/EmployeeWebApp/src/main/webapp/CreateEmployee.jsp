@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html >
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -202,12 +206,7 @@ footer#main{
 	<form action="/EmployeeWebApp/createemployee" id="create" class="box create" method="post">
 		<fieldset class="boxBody">
 		
-			<p>
-				<label>Employee Id</label>
-			</p>
-			<input type="text" name="employeeId" tabindex="1"
-				placeholder="employeeId" pattern="^\d+$" title="Please enter only numbers" required >
-
+			
 		
 			<p>
 				<label>First Name</label>

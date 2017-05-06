@@ -2,6 +2,8 @@ package imcs.trng;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,21 +19,21 @@ import imcs.training.april2017.EmployeeOperations.Pojo.Employee;
  */
 public class ViewEmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ViewEmployeeServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ViewEmployeeServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/ViewEmployee.html").forward(request,response);
+		request.getRequestDispatcher("/ViewEmployee.jsp").forward(request,response);
 	}
 
 	/**
@@ -39,27 +41,52 @@ public class ViewEmployeeServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int employeeId = Integer.parseInt(request.getParameter("employeeId"));
 		EmployeeOperations employeeOperations = new EmployeeDBOperations();
-		try {
-			Employee employee = employeeOperations.findEmployee(employeeId);
-			if(employee==null){
+		List<Employee> employees = new ArrayList<Employee>();
+		boolean flag = false;
+		if(request.getParameter("employeeId").equals("")){
+			try {
+				employees = employeeOperations.findAll();
+				flag=true;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 				response.sendRedirect("EmployeeNotFound.html");
 			}
-			else{
-				request.setAttribute("id", employee.getId());
-				request.setAttribute("firstName", employee.getFirstName());
-				request.setAttribute("lastName", employee.getLastName());
-				request.setAttribute("salary", employee.getSalary());
-				request.setAttribute("address", employee.getAddress());
-				request.setAttribute("gender", employee.getGender().toString());
-				request.getRequestDispatcher("/ViewEmployeeDetails.jsp").forward(request,response);
+		}
+		else{
+
+
+			try {
+				int employeeId = Integer.parseInt(request.getParameter("employeeId"));
+				Employee employee = employeeOperations.findEmployee(employeeId);
+				if(employee==null){
+					request.setAttribute("notFound",true);
+					request.getRequestDispatcher("/ViewEmployee.jsp").forward(request,response);
+				}
+				else{
+
+
+					employees.add(employee);
+					flag=true;
+				}
+
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				request.setAttribute("notFound",true);
+				request.getRequestDispatcher("/ViewEmployee.jsp").forward(request,response);
+			}catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				request.setAttribute("notFound",true);
+				request.getRequestDispatcher("/ViewEmployee.jsp").forward(request,response);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			
-			e.printStackTrace();
-			response.sendRedirect("EmployeeNotFound.html");
+		}
+		if(flag==true){
+			request.setAttribute("employees",employees);
+			request.getRequestDispatcher("/ViewEmployee.jsp").forward(request,response);
 		}
 	}
 

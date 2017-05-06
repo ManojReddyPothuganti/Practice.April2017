@@ -31,7 +31,7 @@ public class CreateEmployeeServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/CreateEmployee.html").forward(request,response);
+		request.getRequestDispatcher("/CreateEmployee.jsp").forward(request,response);
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class CreateEmployeeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
-		int empId = Integer.parseInt(request.getParameter("employeeId"));
+		//int empId = Integer.parseInt(request.getParameter("employeeId"));
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		double salary = Double.parseDouble(request.getParameter("salary"));
@@ -52,16 +52,18 @@ public class CreateEmployeeServlet extends HttpServlet {
 		}else{
 			gender1 = 2;
 		}
-		Employee employee = new Employee(empId,firstName,lastName,salary,address,gender1);
+		Employee employee = new Employee(firstName,lastName,salary,address,gender1);
 		EmployeeOperations employeeOperations = new EmployeeDBOperations();
 		System.out.println(employeeOperations);
 		try {
 			boolean flag = employeeOperations.createEmployee(employee);
 			if(flag == true){
+				request.setAttribute("created", true);
 				request.getRequestDispatcher("/home.html").forward(request,response);
 			}
 			else{
-				response.sendRedirect("errorCreatingEmployee.html");
+				request.setAttribute("created", false);
+				response.sendRedirect("viewemployee.html");
 			}
 		} catch (EmployeeCreationException e) {
 			// TODO Auto-generated catch block
