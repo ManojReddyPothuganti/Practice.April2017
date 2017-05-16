@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:Student xmlns:tns="http://www.example.org/Student" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.example.org/Student Student.xsd ">
+  <tns:Name>Manoj</tns:Name>
+  <tns:Address>
+    <tns:addressType>HOME</tns:addressType>
+    <tns:streetNo>5336</tns:streetNo>
+    <tns:city>Kansas</tns:city>
+    <tns:state>Missouri</tns:state>
+    <tns:zipcode>66213</tns:zipcode>
+  </tns:Address>
+  <tns:Marks>
+    <tns:subject>Maths</tns:subject>
+    <tns:marks>75</tns:marks>
+    <tns:maxMarks>80</tns:maxMarks>
+  </tns:Marks>
+</tns:Student>

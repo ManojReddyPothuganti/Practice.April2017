@@ -1,0 +1,22 @@
+{
+  "name" : "Vinay",
+  "address" : [ {
+    "type" : "HOME",
+    "street" : "MacArthur",
+    "city" : "DALLAS",
+    "state" : "TX"
+  }, {
+    "type" : "WORK",
+    "street" : "RanchView",
+    "city" : "IRVING",
+    "state" : "TX"
+  } ],
+  "marks" : [ {
+    "subject" : "MATHS",
+    "marks" : 95.0
+  }, {
+    "subject" : "ENGLISH",
+    "marks" : 90.0
+  } ],
+  "highestMarks" : 95.0
+}
